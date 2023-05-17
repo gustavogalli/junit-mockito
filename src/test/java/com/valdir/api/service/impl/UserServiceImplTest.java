@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +28,7 @@ class UserServiceImplTest {
     public static final String NAME     = "Gustavo";
     public static final String MAIL     = "gus@gmail.com";
     public static final String PASSWORD = "123";
+
     @InjectMocks
     private UserServiceImpl service;
 
@@ -69,19 +71,34 @@ class UserServiceImplTest {
         when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Objeto não encontrado!"));
 
         try{
+            // execução
             service.findById(ID);
         } catch(Exception exception){
+            // verificações
             assertEquals(ObjectNotFoundException.class, exception.getClass());
             assertEquals("Objeto não encontrado!", exception.getMessage());
         }
 
-        // execução
-
-        // verificações
     }
 
     @Test
-    void findAll() {
+    void whenFindAllThenReturnAListOfUsers() {
+        // cenário
+        when(repository.findAll()).thenReturn(List.of(user, user, user));
+
+        // execução
+        List<User> response = service.findAll();
+
+        // verificações
+        assertNotNull(response);
+        assertEquals(3, response.size());
+        assertEquals(User.class, response.get(0).getClass());
+
+        assertEquals(ID, response.get(0).getId());
+        assertEquals(NAME, response.get(0).getName());
+        assertEquals(MAIL, response.get(0).getEmail());
+        assertEquals(PASSWORD, response.get(0).getPassword());
+
     }
 
     @Test

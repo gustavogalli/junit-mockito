@@ -1,6 +1,5 @@
 package com.valdir.api.resource;
 
-import com.valdir.api.domain.User;
 import com.valdir.api.domain.dto.UserDTO;
 import com.valdir.api.service.UserService;
 import org.modelmapper.ModelMapper;

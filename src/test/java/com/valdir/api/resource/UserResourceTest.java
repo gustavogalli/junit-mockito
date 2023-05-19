@@ -141,10 +141,8 @@ class UserResourceTest {
         ResponseEntity<UserDTO> response = resource.delete(ID);
 
         assertNotNull(response);
-        assertNotNull(response.getBody());
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertEquals(ResponseEntity.class, response.getClass());
-        assertEquals(UserDTO.class, response.getBody().getClass());
         verify(service, times(1)).delete(anyInt());
 
     }
